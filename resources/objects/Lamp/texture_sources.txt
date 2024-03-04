@@ -1,0 +1,6 @@
+The model uses textures from the following sources:
+---------------------------------------------------
+ 
+https://www.textures.com
+https://www.cgbookcase.com
+https://matlib.gpuopen.com

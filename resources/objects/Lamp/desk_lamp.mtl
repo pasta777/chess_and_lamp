@@ -1,0 +1,14 @@
+# Blender 4.0.2 MTL File: 'desk_lamp.blend'
+# www.blender.org
+
+newmtl desk_lamp
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd lamp_Albedo.png
+map_Ns lamp_Gloss.png
+map_refl lamp_Metalness.png
+map_Bump -bm 1.000000 lamp_Normal.png
