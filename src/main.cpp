@@ -257,6 +257,8 @@ int main() {
             simpleDepthShader.setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
         simpleDepthShader.setFloat("far_plane", far_plane);
         simpleDepthShader.setVec3("lightPos", pointLight.position);
+        drawChess(simpleDepthShader, chessModel);
+        drawLamp(simpleDepthShader, lampModel);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
