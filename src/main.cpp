@@ -187,11 +187,11 @@ int main() {
     pointLight.ambient = glm::vec3(1.75, 2, 1.5);
     pointLight.diffuse = glm::vec3(4.5, 5, 1);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
-    pointLight.position = glm::vec3(17.5f, 12.25f, 17.5f);
+    pointLight.position = glm::vec3(16.5f, 12.5f, 16.5f);
     //pointLight.position = glm::vec3(0, 12.25f, 0);
 
 
-    pointLight.constant = 1.0f;
+    pointLight.constant = 0.5f;
     pointLight.linear = 0.045f;
     pointLight.quadratic = 0.0175f;
 
@@ -248,7 +248,6 @@ int main() {
         shadowTransforms.push_back(shadowProj * glm::lookAt(pointLight.position, pointLight.position + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
         shadowTransforms.push_back(shadowProj * glm::lookAt(pointLight.position, pointLight.position + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
         shadowTransforms.push_back(shadowProj * glm::lookAt(pointLight.position, pointLight.position + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
-
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
@@ -260,7 +259,6 @@ int main() {
         drawChess(simpleDepthShader, chessModel);
         drawLamp(simpleDepthShader, lampModel);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
         glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ourShader.use();
