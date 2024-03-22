@@ -33,6 +33,8 @@ void drawLamp(Shader ourShader, Model ourModel);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+const unsigned int MAX_RAND = 100;
+
 // camera
 
 float lastX = SCR_WIDTH / 2.0f;
@@ -229,6 +231,14 @@ int main() {
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        long random_interval = (random() % MAX_RAND) + 1;
+        if((int)(currentFrame * 10) % random_interval == 0){
+            pointLight.ambient = glm::vec3(1.5, 1.75, 1.25);
+            pointLight.diffuse = glm::vec3(4, 4.5, 0.5);
+        } else {
+            pointLight.ambient = glm::vec3(1.75, 2, 1.5);
+            pointLight.diffuse = glm::vec3(4.5, 5, 1);
+        }
         // input
         // -----
         processInput(window);
