@@ -40,9 +40,8 @@ const unsigned int MAX_RAND = 100;
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
-int shadows = 0;
+int shadows = 1;
 bool shadowsKeyPressed = false;
-
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -183,15 +182,12 @@ int main() {
     Model lampModel("resources/objects/Lamp/desk_lamp.obj");
     lampModel.SetShaderTextureNamePrefix("material.");
 
-
-
     PointLight& pointLight = programState->pointLight;
     pointLight.ambient = glm::vec3(1.75, 2, 1.5);
     pointLight.diffuse = glm::vec3(4.5, 5, 1);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
     pointLight.position = glm::vec3(16.5f, 12.5f, 16.5f);
     //pointLight.position = glm::vec3(0, 12.25f, 0);
-
 
     pointLight.constant = 0.5f;
     pointLight.linear = 0.045f;
@@ -266,8 +262,10 @@ int main() {
             simpleDepthShader.setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
         simpleDepthShader.setFloat("far_plane", far_plane);
         simpleDepthShader.setVec3("lightPos", pointLight.position);
+
         drawChess(simpleDepthShader, chessModel);
         drawLamp(simpleDepthShader, lampModel);
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -290,12 +288,11 @@ int main() {
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
 
+        drawChess(ourShader, chessModel);
+        drawLamp(ourShader, lampModel);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        // render the loaded models
-        drawChess(ourShader, chessModel);
-        drawLamp(ourShader, lampModel);
 
         if (programState->ImGuiEnabled)
             DrawImGui(programState);

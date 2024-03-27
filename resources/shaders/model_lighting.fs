@@ -97,7 +97,7 @@ void main()
     vec3 normal = normalize(Normal);
     vec3 viewDir = normalize(viewPosition - FragPos);
     vec3 lightDir = normalize(pointLight.position - FragPos);
-    float shadow = ShadowCalculation(FragPos);
+    float shadow = shadows ? ShadowCalculation(FragPos) : 0.0;
          // diffuse shading
     float diff = max(dot(normal, lightDir), 0.0);
          // specular shading
