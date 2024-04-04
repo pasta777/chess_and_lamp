@@ -28,7 +28,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
 void drawChess(Shader ourShader, Model ourModel);
 void drawLamp(Shader ourShader, Model ourModel);
-void drawGlass(Shader ourShader, Model ourModel);
+void drawAshtray(Shader ourShader, Model ourModel);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -270,7 +270,7 @@ int main() {
 
         drawChess(simpleDepthShader, chessModel);
         drawLamp(simpleDepthShader, lampModel);
-        drawGlass(simpleDepthShader, ashtrayModel);
+        drawAshtray(simpleDepthShader, ashtrayModel);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
@@ -298,7 +298,7 @@ int main() {
         drawChess(ourShader, chessModel);
         drawLamp(ourShader, lampModel);
         ourShader.setFloat("transparency", 0.65f);
-        drawGlass(ourShader, ashtrayModel);
+        drawAshtray(ourShader, ashtrayModel);
 
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
@@ -447,7 +447,7 @@ void drawLamp(Shader ourShader, Model ourModel) {
     ourModel.Draw(ourShader);
 }
 
-void drawGlass(Shader ourShader, Model ourModel) {
+void drawAshtray(Shader ourShader, Model ourModel) {
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, programState->ashtrayPosition);
     model = glm::scale(model, glm::vec3(programState->ashtrayScale));
