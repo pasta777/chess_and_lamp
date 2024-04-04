@@ -28,7 +28,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
 void drawChess(Shader ourShader, Model ourModel);
 void drawLamp(Shader ourShader, Model ourModel);
-
+void drawGlass(Shader ourShader, Model ourModel);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -64,8 +64,10 @@ struct ProgramState {
     bool CameraMouseMovementUpdateEnabled = true;
     glm::vec3 chessPosition = glm::vec3(0.0f);
     glm::vec3 lampPosition = glm::vec3(17.5f, -3.0f, 17.5f);
+    glm::vec3 ashtrayPosition = glm::vec3(0.0f, -2.5f, 16.0f);
     float chessScale = 1.0f;
     float lampScale = 100.0f;
+    float ashtrayScale = 0.4f;
     PointLight pointLight;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
@@ -181,6 +183,9 @@ int main() {
     chessModel.SetShaderTextureNamePrefix("material.");
     Model lampModel("resources/objects/Lamp/desk_lamp.obj");
     lampModel.SetShaderTextureNamePrefix("material.");
+    stbi_set_flip_vertically_on_load(false);
+    Model ashtrayModel("resources/objects/Ashtray/scene.gltf");
+    ashtrayModel.SetShaderTextureNamePrefix("material.");
 
     PointLight& pointLight = programState->pointLight;
     pointLight.ambient = glm::vec3(1.75, 2, 1.5);
@@ -265,6 +270,7 @@ int main() {
 
         drawChess(simpleDepthShader, chessModel);
         drawLamp(simpleDepthShader, lampModel);
+        drawGlass(simpleDepthShader, ashtrayModel);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
@@ -280,6 +286,7 @@ int main() {
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
         ourShader.setFloat("far_plane", far_plane);
+        ourShader.setFloat("transparency", 1.0f);
         ourShader.setInt("shadows", shadows);
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
@@ -290,6 +297,9 @@ int main() {
 
         drawChess(ourShader, chessModel);
         drawLamp(ourShader, lampModel);
+        ourShader.setFloat("transparency", 0.65f);
+        drawGlass(ourShader, ashtrayModel);
+
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -433,6 +443,15 @@ void drawLamp(Shader ourShader, Model ourModel) {
     model = glm::translate(model, programState->lampPosition);
     model = glm::scale(model, glm::vec3(programState->lampScale));
     model = glm::rotate(model, 78.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    ourShader.setMat4("model", model);
+    ourModel.Draw(ourShader);
+}
+
+void drawGlass(Shader ourShader, Model ourModel) {
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, programState->ashtrayPosition);
+    model = glm::scale(model, glm::vec3(programState->ashtrayScale));
+    model = glm::rotate(model, (float)(-M_PI/2.0), glm::vec3(1.0f, 0.0f, 0.0f));
     ourShader.setMat4("model", model);
     ourModel.Draw(ourShader);
 }

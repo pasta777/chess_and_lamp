@@ -30,6 +30,7 @@ uniform samplerCube depthMap;
 uniform float far_plane;
 uniform vec3 viewPosition;
 uniform bool shadows;
+uniform float transparency;
 
 vec3 gridSamplingDisk[20] = vec3[]
 (
@@ -107,12 +108,15 @@ void main()
     float distance = length(pointLight.position - FragPos);
     float attenuation = 1.0 / (pointLight.constant + pointLight.linear * distance + pointLight.quadratic * (distance * distance));
          // combine results
-    vec3 ambient = pointLight.ambient * vec3(texture(material.texture_diffuse1, TexCoords));
-    vec3 diffuse = pointLight.diffuse * diff * vec3(texture(material.texture_diffuse1, TexCoords));
-    vec3 specular = pointLight.specular * spec * vec3(texture(material.texture_specular1, TexCoords).xxx);
+    vec4 texColor = texture(material.texture_diffuse1, TexCoords);
+    //if(texColor.a < 0.1)
+    //     discard;
+    vec3 ambient = pointLight.ambient * vec3(texColor);
+    vec3 diffuse = pointLight.diffuse * diff * vec3(texColor);
+    vec3 specular = pointLight.specular * spec * vec3(texColor.xxx);
     specular *= attenuation;
     ambient *= attenuation;
     diffuse *= attenuation;
     vec3 result = ambient + (1.0 - shadow) * (diffuse + specular);
-    FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, transparency);
 }
