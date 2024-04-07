@@ -1,10 +1,10 @@
 # Chess and Lamp
-Implementirane teme:
-- Grupa A: Anti-Aliasing
-- Grupa B: Point Shadows
+Optional implemented lessons:
+- Group A: Anti-Aliasing
+- Group B: Point Shadows
 
-Kontrole:
+Controls:
 
-WASD - Kretanje
+WASD - Movement
 
-Space - Uključi/isključi senke
+Space - Shadows on/off
