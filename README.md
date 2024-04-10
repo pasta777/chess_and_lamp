@@ -8,3 +8,5 @@ Controls:
 WASD - Movement
 
 Space - Shadows on/off
+
+Link to the video: https://youtu.be/gVR_Mhx1V_c
